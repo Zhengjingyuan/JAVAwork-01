@@ -1,30 +1,29 @@
-import java.util.Arrays;
 import java.util.concurrent.locks.LockSupport;
-
+import java.util.Arrays;
 public class XuanZuoTi {
     private static Thread t1;
     private static Thread t2;
 
     public static void sout(int[] arr1, int[] arr2){
 
-         t1 = new Thread(() ->{
-             for(int num : arr1){
-                 System.out.print(num + " ");
-                 LockSupport.unpark(t2);  //唤醒t2线程
-                 LockSupport.park();  //将本线程阻塞
-             }
-         });
+        t1 = new Thread(() ->{
+            for(int num : arr1){
+                System.out.print(num + " ");
+                LockSupport.unpark(t2);  //唤醒t2线程
+                LockSupport.park();  //将本线程阻塞
+            }
+        });
 
-         t2 = new Thread(() ->{
-             for(int let : arr2){
-                 LockSupport.park();  //防止t2线程先执行从而先输出A
-                 System.out.print(let + " ");
-                 LockSupport.unpark(t1);  //唤醒t1线程
-             }
-         });
+        t2 = new Thread(() ->{
+            for(int let : arr2){
+                LockSupport.park();  //防止t2线程先执行从而先输出A
+                System.out.print(let + " ");
+                LockSupport.unpark(t1);  //唤醒t1线程
+            }
+        });
 
-         t1.start();
-         t2.start();
+        t1.start();
+        t2.start();
 
     }
     //条件1：输入的只能是字母、数字、下划线、@以及.五种
